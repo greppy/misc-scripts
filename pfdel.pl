@@ -37,7 +37,7 @@ open my $queue, qq{$postqueue |}
 $INPUT_RECORD_SEPARATOR = q{};    # Paragraph mode
                                   
 while ( my $entry = <$queue> ) {
-    next if $entry =~ m{\A-}xms;    # skip the header
+    $entry =~ s{\A-.*\n}{}; # remove header
 
     # process each email address passed as input
     for my $email_addr (@input_email) {
