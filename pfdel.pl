@@ -12,6 +12,7 @@ use Carp;
 use Getopt::Long;
 use Pod::Usage;
 
+# Initialize variables to be used later.
 my @input_email = ();
 my ( $man, $help, $verbose, $dryrun );
 
@@ -33,8 +34,8 @@ my $postsuper = q{/usr/sbin/postsuper};
 open my $queue, qq{$postqueue |}
     or croak qq{Can't get pipe to $postqueue: $OS_ERROR\n};
 
-$INPUT_RECORD_SEPARATOR = q{};    # Rest of queue entries print on
-                                  # multiple lines.
+$INPUT_RECORD_SEPARATOR = q{};    # Paragraph mode
+                                  
 while ( my $entry = <$queue> ) {
     next if $entry =~ m{\A-}xms;    # skip the header
 
