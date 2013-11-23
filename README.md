@@ -14,3 +14,7 @@ to make sure that it will still do what you expect.
 #### pfdel.pl
 
 Delete items out of a Postfix mail queue based on the sender or recipient email address.
+
+#### xkcd_1288.pl
+
+A filtering proxy server inspired by http://xkcd.com/1288.
