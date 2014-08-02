@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Baofeng UV-5R Programming Helper</title>
+    </head>
+    <body>
+    <!--
+        The MIT License (MIT)
+
+        Copyright (c) 2014 Matt Okeson-Harlow
+
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+    -->
+        <style>
+            @media print {
+                div.noprint, div#input{ display: none; }
+                span.button, span.vfo, span.ab { border: solid; border-width: 1px; padding: 2px; }
+            }
+            @media screen {
+                span, select, input { font-family: Consolas, monospace; }
+                span.preset {  margin: 2px; padding-left: 2px; padding-right: 2px;}
+                span.button, span.vfo, span.ab { padding: 2px; color: #ffffff; }
+                span.button { background-color: #000000; }
+                span.vfo { background-color: orange; }
+                span.ab { background-color: #0000ff; }
+                div#header { clear: both; }
+            }
+            @media all {
+                body { font-size: 0.875em; }
+                div#input { float: left; padding-right: 15px; }
+                div#settings { float: left; }
+                div#container { width: 90%; margin-left: auto; margin-right: auto; }
+            }
+        </style>
+        <div id='container'>
+            <div id='header'>
+                Baofeng UV-5R programming helper by Matt Okeson-Harlow, aka <a href='http://nm9o.com'>NM9O</a>.<br />
+                <div class='noprint'>
+                    Fill in the form on the left, and the information on the right will change.<br />
+                    Use the arrow keys or enter the numbers directly for each setting.<br />
+                    Suggestion: Print this page after filling everything in to save it!<br />
+                </div>
+                <hr />
+            </div>
+            <div id='input'>
+                <form>
+                RX Frequency: <input type='text' name='frequency'> MHz<br />
+                Offset direction: 
+                    <select id='offset_direction'>
+                        <option value='Off'>None</option>
+                        <option value='+'>+</option>
+                        <option value='-'>-</option>
+                    </select><br />
+                Offset:
+                    <select id='offset'>
+                        <option value=''></option>
+                        <option value='0 0 0 0 0'>None</option>
+                        <option value='0 0 6 0 0'>600 KHz</option>
+                        <option value='0 1 0 0 0'>1 MHz</option>
+                        <option value='0 5 0 0 0'>5 MHz</option>
+                    </select><br />
+                Transmit CTCS:
+                    <select id='t_ctcs'>
+                        <option value=''></option>
+                        <option value='67.0'>67.0</option>
+                        <option value='71.9'>71.9</option>
+                        <option value='74.4'>74.4</option>
+                        <option value='77.0'>77.0</option>
+                        <option value='79.7'>79.7</option>
+                        <option value='82.5'>82.5</option>
+                        <option value='85.4'>85.4</option>
+                        <option value='88.5'>88.5</option>
+                        <option value='91.5'>91.5</option>
+                        <option value='94.8'>94.8</option>
+                        <option value='97.4'>97.4</option>
+                        <option value='100.0'>100.0</option>
+                        <option value='103.5'>103.5</option>
+                        <option value='107.2'>107.2</option>
+                        <option value='110.9'>110.9</option>
+                        <option value='114.8'>114.8</option>
+                        <option value='118.8'>118.8</option>
+                        <option value='123.0'>123.0</option>
+                        <option value='127.3'>127.3</option>
+                        <option value='131.8'>131.8</option>
+                        <option value='136.5'>136.5</option>
+                        <option value='141.3'>141.3</option>
+                        <option value='146.2'>146.2</option>
+                        <option value='151.4'>151.4</option>
+                        <option value='156.7'>156.7</option>
+                        <option value='162.2'>162.2</option>
+                        <option value='173.8'>173.8</option>
+                        <option value='179.9'>179.9</option>
+                        <option value='186.2'>186.2</option>
+                        <option value='192.8'>192.8</option>
+                        <option value='203.5'>203.5</option>
+                        <option value='210.7'>210.7</option>
+                        <option value='218.1'>218.1</option>
+                        <option value='225.7'>225.7</option>
+                        <option value='233.6'>233.6</option>
+                        <option value='241.8'>241.8</option>
+                        <option value='250.3'>250.3</option>
+                        <option value='69.4'>69.4</option>
+                        <option value='159.8'>159.8</option>
+                        <option value='165.5'>165.5</option>
+                        <option value='171.3'>171.3</option>
+                        <option value='177.3'>177.3</option>
+                        <option value='183.5'>183.5</option>
+                        <option value='189.9'>189.9</option>
+                        <option value='196.6'>196.6</option>
+                        <option value='199.5'>199.5</option>
+                        <option value='206.5'>206.5</option>
+                        <option value='229.1'>229.1</option>
+                        <option value='254.1'>254.1</option>
+                        <option value='150.0'>150.0</option>
+                    </select><br />
+                Memory Channel: 
+                    <select id='select_channel'>
+                        <option value=''></option>
+                    </select><br />
+                <input type='reset' />
+                </form>
+                <hr />
+                Click on a callsign below to populate the form above<br />
+                Most of these were populated based on the <a href='http://wi-repeaters.org'>WAR</a> website.<br />
+                <em>It is possible that some of these presets may have an <br />
+                incorrect offset</em>
+                <hr />
+                <div id='presets' class='noprint'>
+                </div>
+                <hr />
+            </div>
+            <div id='settings'>
+                1.  Set radio to Frequency Mode: <span class='vfo'>VFO/MR</span><br /><br />
+                2.  MUST BE SET TO UPPER DISPLAY: <span class='ab'>A/B</span> if it is not<br /><br />
+                3.  Turn TDR OFF: <span class='button'>MENU</span> 7 <span class='button'>MENU</span> OFF <span class='button'>MENU</span> <span class='button'>EXIT</span><br /><br />
+                4.  Clear Memory: <span class='button'>MENU</span> 2 8 <span class='button'>MENU</span> <span class='channel'>Select Channel</span> <span class='button'>MENU</span> <span class='button'>EXIT</span><br /><br />
+                5.  Offset: <span class='button'>MENU</span> 2 6 <span class='button'>MENU</span> <span class='offset'>Select Offset</span> <span class='button'>MENU</span> <span class='button'>EXIT</span><br /><br />
+                6.  TX Frequency Shift: <span class='button'>MENU</span> 2 5 <span class='button'>MENU</span> <span class='offset_direction'>Select Offset Direction</span> <span class='button'>MENU</span> <span class='button'>EXIT</span><br /><br />
+                7.  Set TX CTCSS: <span class='button'>MENU</span> 1 3 <span class='button'>MENU</span> <span class='t_ctcs'>Select CTCS</span> <span class='button'>MENU</span> <span class='button'>EXIT</span><br /><br />
+                8.  Enter RX frequency: <span id='rx_frequency'>Enter RX Frequency</span><br /><br />
+                9.  Store RX frequency: <span class='button'>MENU</span> 2 7 <span class='button'>MENU</span> <span class='channel'>Select Channel</span> <span class='button'>MENU</span> <span class='button'>EXIT</span><br /><br />
+                10. Reverse RX TX display: <span class='button'>* SCAN</span><br /><br />
+                11. Store TX frequency: <span class='button'>MENU</span> 2 7 <span class='button'>MENU</span> <span class='channel'>Select Channel</span> <span class='button'>MENU</span> <span class='button'>* SCAN</span> <span class='button'>EXIT</span><br /><br />
+                12. Switch to Channel Mode <span class='vfo'>VFO/MR</span><br /><br />
+            </div>
+        </div>
+
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+        <script>
+        $(document).ready(function() {
+            // build channel list
+            for ( var i = 0; i < 128; i++ ) {
+                var oString = "<option value='" + i + "'>" + i + "</option>";
+                $("[id=select_channel]").append(oString);
+            }
+
+            // prevent the enter key from submitting, and thus clearing, the form.
+            $('form').keydown(function(e) {
+                if ( e.keyCode == 13 ) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            function format_text( string ) {
+                return string.split('').join(' ');
+            }
+
+            // change the frequency in the settings
+            $("input[name='frequency']").change(function() {
+                var freq = $(this).val().replace(/[.]/, '');
+
+                if ( freq.length == '6' ) {
+                    $('span#rx_frequency').html(format_text(freq));
+                }
+                else {
+                    while( freq.length != 6 ) {
+                        var freq = freq.concat('0');
+                    }
+                    $('span#rx_frequency').html(format_text(freq));
+                }
+            });
+            // change the channel in the settings
+            $("[id=select_channel]").change(function() {
+                var channel = $(this).val();
+                $('span.channel').html(format_text(channel));
+            });
+
+            // change the CTCS in the settings
+            $("[id=t_ctcs]").change(function() {
+                var ctcs = $(this).val().replace(/[.]/, '');
+                $('span.t_ctcs').html(format_text(ctcs));
+            });
+
+            // change the offset in the settings
+            $("[id=offset]").change(function() {
+                var offset = $(this).val();
+                $('span.offset').html(offset);
+            });
+
+            // change the offset direction
+            $("[id=offset_direction]").change(function() {
+                var direction = $(this).val();
+                $('span.offset_direction').html(direction);
+            });
+       
+            // repeater presets
+            var repeaters = [
+                { location: 'Adams', callsign: 'AC9AR', freq: '147.030', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Arlington', callsign: 'KC9HEA', freq: '443.350', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Baraboo', callsign: 'N3IVK', freq: '443.725', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Baraboo', callsign: 'N9BDR', freq: '443.575', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Baraboo', callsign: 'N9GMT', freq: '444.500', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Baraboo', callsign: 'WB9FDZ 2', freq: '147.315', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Baraboo', callsign: 'WB9FDZ', freq: '145.315', offset: '0 0 6 0 0', ctcs: '', direction: '-' },
+                { location: 'Baraboo', callsign: 'WI9WIN', freq: '443.900', offset: '0 5 0 0 0', ctcs: '100.0', direction: '+' },
+                { location: 'Baraboo', callsign: 'WR9ABE', freq: '146.880', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Beloit', callsign: 'WA9JTX', freq: '147.120', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Berlin', callsign: 'N9GMT 2', freq: '444.950', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Big Flats', callsign: 'N9WYQ 2', freq: '444.725', offset: '0 5 0 0 0', ctcs: '114.8', direction: '+' },
+                { location: 'Big Flats', callsign: 'N9WYQ', freq: '146.625', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Brooklyn', callsign: 'K9QB', freq: '145.170', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Cambria', callsign: 'KC9CZH', freq: '147.015', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Cambridge', callsign: 'WE9COM', freq: '147.360', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Clinton', callsign: 'WB9SHS 2', freq: '443.175', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Clinton', callsign: 'WB9SHS', freq: '146.715', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Coloma', callsign: 'W9LTA 2', freq: '442.675', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Coloma', callsign: 'W9LTA', freq: '146.700', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'East Troy', callsign: 'N9WMN', freq: '440.775', offset: '0 5 0 0 0', ctcs: '127.3', direction: '+' },
+                { location: 'Edgerton', callsign: 'WI9WIN 2', freq: '442.300', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Elkhorn', callsign: 'N9LOH', freq: '443.700', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Elkhorn', callsign: 'W9ELK', freq: '146.865', offset: '0 0 6 0 0', ctcs: '127.3', direction: '-' },
+                { location: 'Fitchburg', callsign: 'KA9VDU', freq: '444.000', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Hancock', callsign: 'WI9WIN 3', freq: '442.725', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Hollandale', callsign: 'N9QIP', freq: '146.655', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Hollandale', callsign: 'WI9WIN 4', freq: '444.550', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Ixonia', callsign: 'WI9WIN 5', freq: '442.025', offset: '0 5 0 0 0', ctcs: '114.8', direction: '+' },
+                { location: 'Janesville', callsign: 'K9FRY', freq: '147.075', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Janesville', callsign: 'KC9KUM', freq: '443.225', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Janesville', callsign: 'WB9SHS 3', freq: '145.450', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Janesville', callsign: 'WB9SHS 4', freq: '444.750', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Jefferson', callsign: 'AB9KL', freq: '444.900', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Jefferson', callsign: 'W9MQB', freq: '145.490', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Juneau', callsign: 'W9TCH', freq: '146.640', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Lake Geneva', callsign: 'KA9KJE', freq: '443.375', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Lohrville', callsign: 'KB9JJB', freq: '145.270', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Madison', callsign: 'KB9DRZ', freq: '444.575', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'KC9FNM 2', freq: '442.575', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'KC9FNM', freq: '145.370', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Madison', callsign: 'N9BDR 2', freq: '444.375', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'N9EM 2', freq: '442.550', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'N9EM', freq: '145.150', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Madison', callsign: 'N9KAN', freq: '443.400', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'NG9V', freq: '444.775', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'W9HSY 2', freq: '146.760', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Madison', callsign: 'W9HSY 3', freq: '147.150', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'W9HSY', freq: '145.305', offset: '0 0 6 0 0', ctcs: '', direction: '-' },
+                { location: 'Madison', callsign: 'W9YT 2', freq: '443.600', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'W9YT', freq: '146.685', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Madison', callsign: 'WD8DAS 2', freq: '444.200', offset: '0 5 0 0 0', ctcs: '107.2', direction: '+' },
+                { location: 'Madison', callsign: 'WD8DAS', freq: '147.180', offset: '0 0 6 0 0', ctcs: '107.2', direction: '+' },
+                { location: 'Madison', callsign: 'WI9HF', freq: '443.775', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'WI9WIN 6', freq: '441.400', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Madison', callsign: 'WR9ABE 2', freq: '146.940', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Markesan', callsign: 'WB9RBC', freq: '146.955', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Mauston', callsign: 'K9TD', freq: '442.275', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Mauston', callsign: 'K9UJH', freq: '147.105', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Mauston', callsign: 'KB9WQF', freq: '146.850', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Monroe', callsign: 'KO9LR', freq: '145.110', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Monroe', callsign: 'W9MUP', freq: '443.525', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Montello', callsign: 'KC9ASQ', freq: '146.745', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Necedah', callsign: 'K9UJH 2', freq: '444.125', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Necedah', callsign: 'KC9IPY', freq: '147.210', offset: '0 0 6 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Prairie Du Sac', callsign: 'N9KXX', freq: '444.250', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Richland Center', callsign: 'W9PVR', freq: '146.910', offset: '0 0 6 0 0', ctcs: '131.8', direction: '-' },
+                { location: 'Rubicon', callsign: 'WB9KPG', freq: '145.350', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Watertown', callsign: 'K9LUK', freq: '145.190', offset: '0 0 6 0 0', ctcs: '123.0', direction: '-' },
+                { location: 'Watertown', callsign: 'WI9WIN 7', freq: '440.150', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+                { location: 'Wisconsin Dells', callsign: 'N9ROY', freq: '443.850', offset: '0 5 0 0 0', ctcs: '123.0', direction: '+' },
+            ];
+
+            // build the presets content
+            $(repeaters).each(function( index, obj ) {
+                $("div#presets").append(obj.location + " | <span class='preset'>" + obj.callsign + "</span> | " + obj.freq + " MHz<br />");
+            });
+
+            // populate the form when a preset is clicked.
+            $("span.preset").click(function() {
+                var preset = $(this).html();
+                $("span.preset").css("background-color", "white" ).css("color", "#000000");
+                $(this).css("background-color", "#00ff00").css("color", "#ffffff");
+                $(repeaters).each(function( index, obj ) {
+                    if ( obj.callsign == preset ) {
+                        $("input[name='frequency']").val(obj.freq).change();
+                        $("[id=t_ctcs]").val(obj.ctcs).change();
+                        $("[id=offset]").val(obj.offset).change();
+                        $("[id=offset_direction]").val(obj.direction).change();
+                    }
+                });
+            });
+
+            $("[type=reset]").on("click", function() {
+                $("span.preset").css("background-color", "white" ).css("color", "#000000");
+            });
+
+        });
+        </script>
+    </body>
+</html>
